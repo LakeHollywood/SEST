@@ -7,6 +7,7 @@ import {
   ChevronUp,
   AlertTriangle,
   Shield,
+  Lock,
 } from 'lucide-react';
 import { useState } from 'react';
 import type { SurfaceArea, TestResult } from '../types';
@@ -104,7 +105,7 @@ export function TestSuitePanel({
                     )}
 
                     <div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <code className="text-xs text-emerald-400 font-mono">
                           {test.id}
                         </code>
@@ -115,6 +116,12 @@ export function TestSuitePanel({
                         >
                           {test.details.riskLevel}
                         </span>
+                        {test.details.defenseLayer && (
+                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400/70 border border-emerald-500/20 hidden sm:inline-flex items-center gap-1">
+                            <Lock className="w-2.5 h-2.5" />
+                            {test.details.defenseLayer}
+                          </span>
+                        )}
                       </div>
                       <p className="text-sm text-gray-300 mt-0.5">{test.name}</p>
                     </div>
@@ -166,6 +173,34 @@ export function TestSuitePanel({
                         </p>
                       </div>
                     </div>
+
+                    {/* Defense Layer Badge */}
+                    {test.details.defenseLayer && (
+                      <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-lg p-3 flex items-center gap-2">
+                        <Lock className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <div>
+                          <p className="text-[10px] uppercase tracking-wider text-emerald-400/70">Active Defense</p>
+                          <p className="text-xs text-emerald-300">{test.details.defenseLayer}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Parameters Table */}
+                    {test.details.parameters && (
+                      <div className="bg-gray-900/50 rounded-lg p-3">
+                        <p className="text-[10px] uppercase tracking-wider text-gray-600 mb-2">
+                          Test Parameters
+                        </p>
+                        <div className="space-y-1">
+                          {Object.entries(test.details.parameters).map(([key, value]) => (
+                            <div key={key} className="flex items-center justify-between text-xs">
+                              <code className="text-gray-500 font-mono">{key}</code>
+                              <code className="text-cyan-300 font-mono">{value}</code>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     <div className="flex items-center gap-4 text-xs text-gray-500">
                       <span>{test.assertions} assertion{test.assertions !== 1 ? 's' : ''}</span>

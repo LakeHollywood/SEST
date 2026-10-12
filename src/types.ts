@@ -30,4 +30,6 @@ export interface TestDetails {
   attackVector: string;
   mitigation: string;
   riskLevel: 'critical' | 'high' | 'medium' | 'low';
+  defenseLayer?: string;
+  parameters?: Record<string, string>;
 }
