@@ -1,2 +1,3 @@
 # SEST
 ...
+The Sovereign Engine Security Test Suite Dashboard is an interactive web application visualizing the Rust test suite for hardware-level security verification. It features animated test execution, metrics overview, expandable test case details with risk levels, and specialized visualizations for DMA buffer integrity, multi-threaded contention, and physical oscillator manipulation. The dashboard includes a real-time execution timeline, source code references, and a responsive dark-themed interface designed to highlight attack vectors and engine resilience against low-level hardware attacks and concurrency defects.
