@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Clock, Zap, AlertTriangle } from 'lucide-react';
 import type { TestResult } from '../types';
@@ -10,7 +11,8 @@ interface MetricsOverviewProps {
   runCount: number;
 }
 
-export function MetricsOverview({
+// Memoized: static until a metric value or run state actually changes.
+export const MetricsOverview = memo(function MetricsOverview({
   totalTests,
   passingTests,
   avgDuration,
@@ -85,4 +87,4 @@ export function MetricsOverview({
       ))}
     </div>
   );
-}
+});

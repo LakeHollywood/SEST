@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, Waves, Server, Zap, Shield, AlertTriangle, KeyRound } from 'lucide-react';
 
@@ -6,7 +7,9 @@ interface AttackVisualizationProps {
   activeTest: string | null;
 }
 
-export function AttackVisualization({ surfaceId, activeTest }: AttackVisualizationProps) {
+// Memoized: only re-renders when the selected surface or active test changes,
+// not on every 500ms test-result tick from the parent.
+export const AttackVisualization = memo(function AttackVisualization({ surfaceId, activeTest }: AttackVisualizationProps) {
   const getVisualization = () => {
     switch (surfaceId) {
       case 'dma':
@@ -35,7 +38,7 @@ export function AttackVisualization({ surfaceId, activeTest }: AttackVisualizati
       </div>
     </div>
   );
-}
+});
 
 function DMAVisualization({ activeTest }: { activeTest: string | null }) {
   return (

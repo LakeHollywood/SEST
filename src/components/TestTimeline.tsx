@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Clock, Activity } from 'lucide-react';
 import type { TestResult } from '../types';
@@ -7,7 +8,8 @@ interface TestTimelineProps {
   isRunning: boolean;
 }
 
-export function TestTimeline({ results, isRunning }: TestTimelineProps) {
+// Memoized: only re-renders when new results arrive or run state changes.
+export const TestTimeline = memo(function TestTimeline({ results, isRunning }: TestTimelineProps) {
   return (
     <div className="bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden">
       <div className="px-5 py-4 border-b border-gray-800 flex items-center justify-between">
@@ -114,4 +116,4 @@ export function TestTimeline({ results, isRunning }: TestTimelineProps) {
       </div>
     </div>
   );
-}
+});

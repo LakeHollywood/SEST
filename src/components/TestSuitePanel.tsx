@@ -9,7 +9,7 @@ import {
   Shield,
   Lock,
 } from 'lucide-react';
-import { useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import type { SurfaceArea, TestResult } from '../types';
 
 interface TestSuitePanelProps {
@@ -19,13 +19,20 @@ interface TestSuitePanelProps {
   onTestClick: (testId: string) => void;
 }
 
-export function TestSuitePanel({
+// Memoized: re-renders only when the selected surface or results actually change.
+export const TestSuitePanel = memo(function TestSuitePanel({
   surface,
   testResults,
   isRunning,
   onTestClick,
 }: TestSuitePanelProps) {
   const [expandedTest, setExpandedTest] = useState<string | null>(null);
+
+  // O(1) result lookups instead of an O(n) `.find()` scan per test row.
+  const resultsById = useMemo(
+    () => new Map(testResults.map((r) => [r.testId, r])),
+    [testResults]
+  );
 
   const getRiskBadge = (level: string) => {
     switch (level) {
@@ -68,7 +75,7 @@ export function TestSuitePanel({
       {/* Test Cases */}
       <div className="divide-y divide-gray-800/50">
         {surface.tests.map((test, index) => {
-          const result = testResults.find((r) => r.testId === test.id);
+          const result = resultsById.get(test.id);
           const isExpanded = expandedTest === test.id;
           const isTestRunning = isRunning && !result;
 
@@ -216,4 +223,4 @@ export function TestSuitePanel({
       </div>
     </div>
   );
-}
+});
